@@ -9,11 +9,18 @@ use Sirius\Support\Str;
 trait CapsuleManager
 {
     /**
-     * 配置 实例 前缀.
+     * 配置 实例 de 抽象前缀.
      *
      * @var bool|string
      */
     protected $abstractPrefix=false;
+
+    /**
+     * The config instance.
+     *
+     * @var \Sirius\Support\Repository
+     */
+    protected $config = null;
 
     /**
      * The current globally used instance.
@@ -44,6 +51,8 @@ trait CapsuleManager
         if (! $this->container->bound( $prefix.'config')) {
             $this->container->instance( $prefix .'config', new Repository);
         }
+
+        $this->config=$this->container->make( $prefix . 'config');
     }
 
     protected function getAbstractPrefix(){
@@ -69,6 +78,21 @@ trait CapsuleManager
     }
 
     /**
+     * Get the config instance.
+     *
+     * @return \Sirius\Support\Repository
+     *
+     * @throws \Exception
+     */
+    public function getConfigInstance() {
+      if ( is_null( $this->config ) ) {
+        throw new \Exception( 'The config instance hsa not set yet!' );
+      }
+
+      return $this->config;
+    }
+
+    /**
      * Get the IoC container instance.
      *
      * @return \Sirius\Container\Container
@@ -91,6 +115,6 @@ trait CapsuleManager
      */
     public function setContainer(Container $container)
     {
-        $this->container = $container;
+        $this->setupContainer( $container);
     }
 }
