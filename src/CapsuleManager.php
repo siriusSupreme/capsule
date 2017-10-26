@@ -37,7 +37,7 @@ trait CapsuleManager
      */
     protected function setupContainer(Container $container=null)
     {
-        $this->container = $container??new Container;
+        $this->container = $container ?? $this->container ?? new Container;
 
         $prefix= $this->getAbstractPrefix();
 
@@ -72,6 +72,8 @@ trait CapsuleManager
      * Get the IoC container instance.
      *
      * @return \Sirius\Container\Container
+     *
+     * @throws \Exception
      */
     public function getContainer()
     {
