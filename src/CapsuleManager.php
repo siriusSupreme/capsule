@@ -27,7 +27,7 @@ trait CapsuleManager
      *
      * @var \Sirius\Container\Container
      */
-    protected $container;
+    protected $container=null;
 
     /**
      * Setup the IoC container instance.
@@ -75,6 +75,9 @@ trait CapsuleManager
      */
     public function getContainer()
     {
+      if (is_null( $this->container)){
+        throw new \Exception('The container hsa not set yet!');
+      }
         return $this->container;
     }
 
